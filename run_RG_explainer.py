@@ -68,7 +68,7 @@ class Runner(torch.nn.Module):
     def __init__(self, args):
         super(Runner, self).__init__()
 
-        self.device = torch.device('cpu')
+        self.device = if args.gpu: torch.device('cuda') else torch.device('cpu')
         self.args = args
         # Load Dataset
         self.graphs, self.nodefeats, ground_truth_labels, self.task = self.load_data()
@@ -676,6 +676,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='syn1') # syn1/syn2/syn3/syn4/ba2/mutag
     parser.add_argument('--paper', type=str, default='GNN')
     parser.add_argument('--model', type=str, default=None)
+    parser.add_argument('--gpu', type=str, default=False)
 
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--with_attr', action='store_true', default=True)

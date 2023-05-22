@@ -68,7 +68,7 @@ class Runner(torch.nn.Module):
     def __init__(self, args):
         super(Runner, self).__init__()
 
-        self.device = if args.gpu: torch.device('cuda') else torch.device('cpu')
+        self.device = torch.device('cuda') if args.gpu else torch.device('cpu')
         self.args = args
         # Load Dataset
         self.graphs, self.nodefeats, ground_truth_labels, self.task = self.load_data()

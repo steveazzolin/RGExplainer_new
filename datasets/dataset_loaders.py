@@ -96,7 +96,7 @@ def load_dataset(paper, _dataset, skip_preproccessing=False, shuffle=True):
     if paper.lower() == "survey":
         data_path = "../Explaining-the-Explainers-in-Graph-Neural-Networks/Datasets/"
         if _dataset.lower() == "ba_2grid":
-            with open(f'{data_path}/BA-2grid.pkl', 'rb') as fin:
+            with open(f'{data_path}BA-2grid.pkl', 'rb') as fin:
                 (adjs, features, labels) = pkl.load(fin)
             print(labels[:50])
             edge_index = adj_to_edge_index(adjs)

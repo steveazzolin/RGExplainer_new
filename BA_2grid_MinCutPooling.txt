@@ -1,0 +1,37 @@
+nohup: ignoring input
+= = = = = = = = = = = = = = = = = = = = 
+Namespace(dataset='BA_2grid', entropy_coef=0.0, eval_every=1, g_batch_size=128, g_lr=0.01, hidden_size=64, l_lr=0.01, max_size=20, model='MinCutPooling', model_name='MinCutPooling', n_epochs=25, n_g_updates=1, n_hop=3, n_l_updates=10, n_rollouts=5, paper='SURVEY', pretrain_g_batch_size=32, pretrain_l_iter=200, pretrain_l_sample_rate=1.0, pretrain_list=10, pretrain_set=25, radius_penalty=0.1, seed=42, sim_reg=1.0, size_reg=0.01, update_l_sample_rate=0.2, with_attr=True)
+##  Starting Time: 2023-05-20 21:41:40
+Loading BA_2grid dataset
+[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+tensor(0) False 0
+Num graphs =  2000
+total nodes 43951
+total edges 91902
+torch.float64 whole_graph
+Prediction Error for Graphs: 0.078
+self.max_n_nodes_in_g 29
+torch.Size([2000, 64]) torch.Size([35228, 32])
+CODE: 46ADD8240BC2CD2491C036826283D497
+Traceback (most recent call last):
+  File "run_RG_explainer.py", line 724, in <module>
+    main(args)
+  File "run_RG_explainer.py", line 669, in main
+    runner.run()
+  File "run_RG_explainer.py", line 624, in run
+    self.pretrain()
+  File "run_RG_explainer.py", line 571, in pretrain
+    self._pretrain()
+  File "run_RG_explainer.py", line 535, in _pretrain
+    self.pretrain_l(args.pretrain_l_iter, args.pretrain_l_sample_rate)
+  File "run_RG_explainer.py", line 524, in pretrain_l
+    self.l.train(l_epochs, self.simulated_return_a_subgraph, self.score_fn, sample_rate)
+  File "/home/azzolin/RGExplainer_new/components/locator_seed.py", line 78, in train
+    rewards = score_fn(generated_sgs)
+  File "run_RG_explainer.py", line 468, in score_fn
+    batch_g_id = [self.get_g_id(x, True) for x in cs]
+  File "run_RG_explainer.py", line 468, in <listcomp>
+    batch_g_id = [self.get_g_id(x, True) for x in cs]
+  File "run_RG_explainer.py", line 444, in get_g_id
+    if self.n_to_g_index[nodes[i]] != self.n_to_g_index[nodes[i+1]]:
+IndexError: list index out of range

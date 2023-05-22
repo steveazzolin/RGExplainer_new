@@ -1,0 +1,26 @@
+= = = = = = = = = = = = = = = = = = = = 
+Namespace(dataset='syn1', entropy_coef=0.0, eval_every=1, g_batch_size=128, g_lr=0.01, hidden_size=64, l_lr=0.01, max_size=20, model='GNN', n_epochs=50, n_g_updates=1, n_hop=3, n_l_updates=10, n_rollouts=5, pretrain_g_batch_size=32, pretrain_l_iter=200, pretrain_l_sample_rate=1.0, pretrain_list=10, pretrain_set=25, radius_penalty=0.1, seed=9, sim_reg=1.0, size_reg=0.01, update_l_sample_rate=0.2, with_attr=True)
+##  Starting Time: 2023-05-16 09:36:07
+Loading syn1 dataset
+Traceback (most recent call last):
+  File "run_RG_explainer.py", line 678, in <module>
+    main(args)
+  File "run_RG_explainer.py", line 623, in main
+    runner = Runner(args)
+  File "run_RG_explainer.py", line 74, in __init__
+    self.trained_model, checkpoint = model_selector.model_selector(args.model, args.dataset, pretrained=True, return_checkpoint=True)
+  File "/home/azzolin/RGExplainer_new/models/model_selector.py", line 75, in model_selector
+    model.load_state_dict(checkpoint['model_state_dict'])
+  File "/home/azzolin/miniconda3/envs/gnn/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1483, in load_state_dict
+    load(self)
+  File "/home/azzolin/miniconda3/envs/gnn/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1481, in load
+    load(child, prefix + name + '.')
+  File "/home/azzolin/miniconda3/envs/gnn/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1481, in load
+    load(child, prefix + name + '.')
+  File "/home/azzolin/miniconda3/envs/gnn/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1478, in load
+    state_dict, prefix, local_metadata, True, missing_keys, unexpected_keys, error_msgs)
+  File "/home/azzolin/miniconda3/envs/gnn/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1380, in _load_from_state_dict
+    hook(state_dict, prefix, local_metadata, strict, missing_keys, unexpected_keys, error_msgs)
+  File "/home/azzolin/miniconda3/envs/gnn/lib/python3.7/site-packages/torch_geometric/nn/dense/linear.py", line 140, in _lazy_load_hook
+    weight = state_dict[prefix + 'weight']
+KeyError: 'conv1.lin.weight'

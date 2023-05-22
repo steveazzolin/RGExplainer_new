@@ -1,0 +1,755 @@
+nohup: ignoring input
+= = = = = = = = = = = = = = = = = = = = 
+Namespace(dataset='BA_2grid', entropy_coef=0.0, eval_every=1, g_batch_size=128, g_lr=0.01, hidden_size=64, l_lr=0.01, max_size=20, model='Cheb', model_name='Cheb', n_epochs=30, n_g_updates=1, n_hop=3, n_l_updates=10, n_rollouts=5, paper='SURVEY', pretrain_g_batch_size=32, pretrain_l_iter=200, pretrain_l_sample_rate=1.0, pretrain_list=10, pretrain_set=25, radius_penalty=0.1, seed=42, sim_reg=1.0, size_reg=0.01, update_l_sample_rate=0.2, with_attr=True)
+##  Starting Time: 2023-05-20 21:39:13
+Loading BA_2grid dataset
+[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+tensor(0) False 0
+Num graphs =  2000
+total nodes 43951
+total edges 91902
+torch.float64 whole_graph
+Prediction Error for Graphs: 0.0005
+self.max_n_nodes_in_g 29
+torch.Size([2000, 30]) torch.Size([43951, 30])
+CODE: EE0D09536A52BC59BA35C82CD8721498
+torch.float64
+iter 0 train_loss -0.12251836182165123
+torch.float64
+iter 1 train_loss -0.12252627919625166
+torch.float64
+iter 2 train_loss -0.12253082171246027
+torch.float64
+iter 3 train_loss -0.12254255553365427
+torch.float64
+iter 4 train_loss -0.12256209618801868
+torch.float64
+iter 5 train_loss -0.12258162238420019
+torch.float64
+iter 6 train_loss -0.1226114879072221
+torch.float64
+iter 7 train_loss -0.12264445007452353
+torch.float64
+iter 8 train_loss -0.12268541458591722
+torch.float64
+iter 9 train_loss -0.12273202659717479
+torch.float64
+iter 10 train_loss -0.12279375477521592
+torch.float64
+iter 11 train_loss -0.12286580384175332
+torch.float64
+iter 12 train_loss -0.12294931150661467
+torch.float64
+iter 13 train_loss -0.12304768282636466
+torch.float64
+iter 14 train_loss -0.1231584452840771
+torch.float64
+iter 15 train_loss -0.12328111007136203
+torch.float64
+iter 16 train_loss -0.12341845094055678
+torch.float64
+iter 17 train_loss -0.12357042421773341
+torch.float64
+iter 18 train_loss -0.12373186045370942
+torch.float64
+iter 19 train_loss -0.12389518742296378
+torch.float64
+iter 20 train_loss -0.12407202245934881
+torch.float64
+iter 21 train_loss -0.12424303758908602
+torch.float64
+iter 22 train_loss -0.1243741298545381
+torch.float64
+iter 23 train_loss -0.1244769469168801
+torch.float64
+iter 24 train_loss -0.12456232364676617
+torch.float64
+iter 25 train_loss -0.12463032972455192
+torch.float64
+iter 26 train_loss -0.12468159708436725
+torch.float64
+iter 27 train_loss -0.12471784598117408
+torch.float64
+iter 28 train_loss -0.1247423712097104
+torch.float64
+iter 29 train_loss -0.12475891605355818
+torch.float64
+iter 30 train_loss -0.12477095603437652
+torch.float64
+iter 31 train_loss -0.12478072804725922
+torch.float64
+iter 32 train_loss -0.12478893920642717
+torch.float64
+iter 33 train_loss -0.12479533130393167
+torch.float64
+iter 34 train_loss -0.12479921069831285
+torch.float64
+iter 35 train_loss -0.12480225725867901
+torch.float64
+iter 36 train_loss -0.12480536650375884
+torch.float64
+iter 37 train_loss -0.12480755833099941
+torch.float64
+iter 38 train_loss -0.12481003746500612
+torch.float64
+iter 39 train_loss -0.12481368486277537
+torch.float64
+iter 40 train_loss -0.12481781258293284
+torch.float64
+iter 41 train_loss -0.12482116109049526
+torch.float64
+iter 42 train_loss -0.12482476915924189
+torch.float64
+iter 43 train_loss -0.12482841972058993
+torch.float64
+iter 44 train_loss -0.12483185738259175
+torch.float64
+iter 45 train_loss -0.12483571251749408
+torch.float64
+iter 46 train_loss -0.12483943691555585
+torch.float64
+iter 47 train_loss -0.12484353200249373
+torch.float64
+iter 48 train_loss -0.1248480966552426
+torch.float64
+iter 49 train_loss -0.12485250839974847
+torch.float64
+iter 50 train_loss -0.12485723656094569
+torch.float64
+iter 51 train_loss -0.12486225749952161
+torch.float64
+iter 52 train_loss -0.1248670498094459
+torch.float64
+iter 53 train_loss -0.12487240872041026
+torch.float64
+iter 54 train_loss -0.12487775078508989
+torch.float64
+iter 55 train_loss -0.12488369280573647
+torch.float64
+iter 56 train_loss -0.12488980692127993
+torch.float64
+iter 57 train_loss -0.12489675306601777
+torch.float64
+iter 58 train_loss -0.12490453033925754
+torch.float64
+iter 59 train_loss -0.12491145241940306
+torch.float64
+iter 60 train_loss -0.12491859112049371
+torch.float64
+iter 61 train_loss -0.12492682381554493
+torch.float64
+iter 62 train_loss -0.12493634954947332
+torch.float64
+iter 63 train_loss -0.12494603793998162
+torch.float64
+iter 64 train_loss -0.1249553790411987
+torch.float64
+iter 65 train_loss -0.1249669878833997
+torch.float64
+iter 66 train_loss -0.12497867487896698
+torch.float64
+iter 67 train_loss -0.12498993428226683
+torch.float64
+iter 68 train_loss -0.12500202153780524
+torch.float64
+iter 69 train_loss -0.1250160020835561
+torch.float64
+iter 70 train_loss -0.12502961163046158
+torch.float64
+iter 71 train_loss -0.12504234781350812
+torch.float64
+iter 72 train_loss -0.12505634304850305
+torch.float64
+iter 73 train_loss -0.1250709724973359
+torch.float64
+iter 74 train_loss -0.125084404566969
+torch.float64
+iter 75 train_loss -0.12509814994598892
+torch.float64
+iter 76 train_loss -0.12511227589141072
+torch.float64
+iter 77 train_loss -0.12512583773650962
+torch.float64
+iter 78 train_loss -0.12513953558460408
+torch.float64
+iter 79 train_loss -0.12515366824091184
+torch.float64
+iter 80 train_loss -0.12516752844824938
+torch.float64
+iter 81 train_loss -0.12518132806963098
+torch.float64
+iter 82 train_loss -0.1251949537695779
+torch.float64
+iter 83 train_loss -0.12520843462527528
+torch.float64
+iter 84 train_loss -0.12522142048779394
+torch.float64
+iter 85 train_loss -0.12523434382536064
+torch.float64
+iter 86 train_loss -0.12524634623931408
+torch.float64
+iter 87 train_loss -0.125257852633542
+torch.float64
+iter 88 train_loss -0.12526802674103443
+torch.float64
+iter 89 train_loss -0.1252777486975109
+torch.float64
+iter 90 train_loss -0.1252861129739288
+torch.float64
+iter 91 train_loss -0.12529423627592998
+torch.float64
+iter 92 train_loss -0.12530150651305502
+torch.float64
+iter 93 train_loss -0.12530822023783197
+torch.float64
+iter 94 train_loss -0.1253144735909535
+torch.float64
+iter 95 train_loss -0.125320371345822
+torch.float64
+iter 96 train_loss -0.12532605014309878
+torch.float64
+iter 97 train_loss -0.12533119583853644
+torch.float64
+iter 98 train_loss -0.12533637752683852
+torch.float64
+iter 99 train_loss -0.12534104790900652
+torch.float64
+iter 100 train_loss -0.12534582672897066
+torch.float64
+iter 101 train_loss -0.1253504186842735
+torch.float64
+iter 102 train_loss -0.12535474401332666
+torch.float64
+iter 103 train_loss -0.12535909098474027
+torch.float64
+iter 104 train_loss -0.12536299074655638
+torch.float64
+iter 105 train_loss -0.12536688858221065
+torch.float64
+iter 106 train_loss -0.12537049652529653
+torch.float64
+iter 107 train_loss -0.12537395866620815
+torch.float64
+iter 108 train_loss -0.125377365474045
+torch.float64
+iter 109 train_loss -0.125380476878525
+torch.float64
+iter 110 train_loss -0.12538357803453137
+torch.float64
+iter 111 train_loss -0.12538651000873938
+torch.float64
+iter 112 train_loss -0.12538934290121953
+torch.float64
+iter 113 train_loss -0.1253921531467632
+torch.float64
+iter 114 train_loss -0.12539486547699122
+torch.float64
+iter 115 train_loss -0.12539751920629447
+torch.float64
+iter 116 train_loss -0.12540011195130235
+torch.float64
+iter 117 train_loss -0.12540267094172927
+torch.float64
+iter 118 train_loss -0.12540518625447447
+torch.float64
+iter 119 train_loss -0.12540759870345033
+torch.float64
+iter 120 train_loss -0.12540990993268894
+torch.float64
+iter 121 train_loss -0.12541216591170767
+torch.float64
+iter 122 train_loss -0.1254143250289168
+torch.float64
+iter 123 train_loss -0.12541646529713663
+torch.float64
+iter 124 train_loss -0.12541852324246983
+torch.float64
+iter 125 train_loss -0.12542061216929226
+torch.float64
+iter 126 train_loss -0.12542267544677535
+torch.float64
+iter 127 train_loss -0.1254247663442132
+torch.float64
+iter 128 train_loss -0.12542685920099103
+torch.float64
+iter 129 train_loss -0.12542894879843355
+torch.float64
+iter 130 train_loss -0.12543107934098185
+torch.float64
+iter 131 train_loss -0.1254332231047632
+torch.float64
+iter 132 train_loss -0.12543524649163962
+torch.float64
+iter 133 train_loss -0.12543721390583937
+torch.float64
+iter 134 train_loss -0.12543899773924932
+torch.float64
+iter 135 train_loss -0.12544051896433553
+torch.float64
+iter 136 train_loss -0.12544200260700952
+torch.float64
+iter 137 train_loss -0.12544351034727014
+torch.float64
+iter 138 train_loss -0.12544500463960415
+torch.float64
+iter 139 train_loss -0.12544650203248375
+torch.float64
+iter 140 train_loss -0.1254479812169689
+torch.float64
+iter 141 train_loss -0.1254494752659175
+torch.float64
+iter 142 train_loss -0.1254509797134947
+torch.float64
+iter 143 train_loss -0.12545244328152594
+torch.float64
+iter 144 train_loss -0.125453899725905
+torch.float64
+iter 145 train_loss -0.125455303742547
+torch.float64
+iter 146 train_loss -0.1254566649352428
+torch.float64
+iter 147 train_loss -0.12545800712615035
+torch.float64
+iter 148 train_loss -0.1254593066685958
+torch.float64
+iter 149 train_loss -0.12546060161564576
+torch.float64
+iter 150 train_loss -0.12546186042532964
+torch.float64
+iter 151 train_loss -0.12546307647919755
+torch.float64
+iter 152 train_loss -0.12546429636333634
+torch.float64
+iter 153 train_loss -0.12546551836435013
+torch.float64
+iter 154 train_loss -0.12546678346651308
+torch.float64
+iter 155 train_loss -0.12546802652630953
+torch.float64
+iter 156 train_loss -0.12546927800448485
+torch.float64
+iter 157 train_loss -0.1254705646338073
+torch.float64
+iter 158 train_loss -0.12547185497420632
+torch.float64
+iter 159 train_loss -0.1254731469140433
+torch.float64
+iter 160 train_loss -0.1254744216762591
+torch.float64
+iter 161 train_loss -0.12547568048019503
+torch.float64
+iter 162 train_loss -0.12547698020446663
+torch.float64
+iter 163 train_loss -0.12547829139029743
+torch.float64
+iter 164 train_loss -0.12547962969109833
+torch.float64
+iter 165 train_loss -0.1254810001711971
+torch.float64
+iter 166 train_loss -0.12548240867168753
+torch.float64
+iter 167 train_loss -0.12548385594914824
+torch.float64
+iter 168 train_loss -0.12548535679234973
+torch.float64
+iter 169 train_loss -0.1254868903095682
+torch.float64
+iter 170 train_loss -0.12548841770816022
+torch.float64
+iter 171 train_loss -0.12549002967703166
+torch.float64
+iter 172 train_loss -0.12549175323782844
+torch.float64
+iter 173 train_loss -0.12549357965563193
+torch.float64
+iter 174 train_loss -0.12549554326067078
+torch.float64
+iter 175 train_loss -0.125497751950558
+torch.float64
+iter 176 train_loss -0.12550031320042956
+torch.float64
+iter 177 train_loss -0.12550462618427527
+torch.float64
+iter 178 train_loss -0.12551219137837094
+torch.float64
+iter 179 train_loss -0.12552539804104498
+torch.float64
+iter 180 train_loss -0.1255298795298257
+torch.float64
+iter 181 train_loss -0.12553649551866009
+torch.float64
+iter 182 train_loss -0.12554612291872744
+torch.float64
+iter 183 train_loss -0.1255549868281144
+torch.float64
+iter 184 train_loss -0.1255700219655485
+torch.float64
+iter 185 train_loss -0.12557501793845577
+torch.float64
+iter 186 train_loss -0.1255814893398775
+torch.float64
+iter 187 train_loss -0.1255936025698358
+torch.float64
+iter 188 train_loss -0.12560343645609948
+torch.float64
+iter 189 train_loss -0.12560866118677777
+torch.float64
+iter 190 train_loss -0.1256150252374269
+torch.float64
+iter 191 train_loss -0.1256254548327843
+torch.float64
+iter 192 train_loss -0.12562911944337554
+torch.float64
+iter 193 train_loss -0.12563549793339832
+torch.float64
+iter 194 train_loss -0.12563842284638357
+torch.float64
+iter 195 train_loss -0.12564671619047083
+torch.float64
+iter 196 train_loss -0.12564940209222664
+torch.float64
+iter 197 train_loss -0.1256534216936006
+torch.float64
+iter 198 train_loss -0.1256557602338658
+torch.float64
+iter 199 train_loss -0.12565936956267235
+pretrain_samples max_size_in_sg 29
+[Pretrain-List   1] Loss = 1.7085
+[Pretrain-List   2] Loss = 1.5883
+[Pretrain-List   3] Loss = 1.5843
+[Pretrain-List   4] Loss = 1.5701
+[Pretrain-List   5] Loss = 1.5660
+[Pretrain-List   6] Loss = 1.5568
+[Pretrain-List   7] Loss = 1.5467
+[Pretrain-List   8] Loss = 1.5377
+[Pretrain-List   9] Loss = 1.5292
+[Pretrain-List  10] Loss = 1.5231
+[Pretrain-Set    1] Loss = 1.2250
+[Pretrain-Set    2] Loss = 1.1596
+[Pretrain-Set    3] Loss = 1.1363
+[Pretrain-Set    4] Loss = 1.0599
+[Pretrain-Set    5] Loss = 1.0581
+[Pretrain-Set    6] Loss = 1.0390
+[Pretrain-Set    7] Loss = 1.0210
+[Pretrain-Set    8] Loss = 0.9954
+[Pretrain-Set    9] Loss = 0.9808
+[Pretrain-Set   10] Loss = 1.0153
+[Pretrain-Set   11] Loss = 0.9812
+[Pretrain-Set   12] Loss = 0.9728
+[Pretrain-Set   13] Loss = 0.9893
+[Pretrain-Set   14] Loss = 0.9616
+[Pretrain-Set   15] Loss = 0.9281
+[Pretrain-Set   16] Loss = 0.9363
+[Pretrain-Set   17] Loss = 0.9374
+[Pretrain-Set   18] Loss = 0.9511
+[Pretrain-Set   19] Loss = 0.9318
+[Pretrain-Set   20] Loss = 0.9305
+[Pretrain-Set   21] Loss = 0.9422
+[Pretrain-Set   22] Loss = 0.9475
+[Pretrain-Set   23] Loss = 0.9228
+[Pretrain-Set   24] Loss = 0.9334
+[Pretrain-Set   25] Loss = 0.9230
+Save the pre-trained model!
+n_id 0 len 14 p_loss=0.00 size_loss=0.26 sim_loss=0.25 r_p=0.30 sgs [0, 2, 1, 7, 3, 11, 5, 13, 9, 6, 4, 14, 10, 12]
+n_id 29 len 11 p_loss=2.41 size_loss=0.24 sim_loss=0.78 r_p=0.30 sgs [0, -9, -3, 1, -1, -6, -11, -2, -4, -10, -12]
+n_id 31 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.26 r_p=0.30 sgs [0, 1, 4, 15, 20, 10, 18, 3, 2, 6, 13, 22, 11, 16, 19, 5, 14, 9, 21, 7]
+n_id 80 len 17 p_loss=1.33 size_loss=0.38 sim_loss=0.86 r_p=0.30 sgs [0, -16, -3, 1, -6, -2, 2, -1, -23, -21, -5, -19, -17, -10, -22, -12, -7]
+n_id 83 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.56 r_p=0.20 sgs [0, 3, 1, 7, 4, 13, 2, 12, 8, 15, 9, 25, 16, 24, 21, 17, 5, 23, 14, 6]
+n_id 133 len 20 p_loss=0.38 size_loss=0.44 sim_loss=0.51 r_p=0.30 sgs [0, -22, -1, -3, 3, -2, 2, -4, -21, -12, -17, -13, -20, 1, -9, -19, -8, -11, -16, -6]
+n_id 137 len 13 p_loss=0.00 size_loss=0.24 sim_loss=1.02 r_p=0.10 sgs [0, 1, 4, 2, 12, 3, 11, 14, 19, 6, 26, 9, 21]
+n_id 185 len 12 p_loss=0.07 size_loss=0.28 sim_loss=1.05 r_p=0.30 sgs [0, -11, -1, 3, -3, -2, -17, -4, 2, -10, -5, -9]
+n_id 190 len 18 p_loss=0.00 size_loss=0.34 sim_loss=0.11 r_p=0.30 sgs [0, -1, 4, 2, 6, 5, 8, 7, 15, 1, 14, 12, 10, 9, 16, 11, 3, 17]
+n_id 233 len 14 p_loss=0.06 size_loss=0.32 sim_loss=0.93 r_p=0.30 sgs [0, -3, -19, -1, -2, -18, -6, -4, -15, -22, -14, -7, -5, -25]
+n_id 242 len 18 p_loss=0.00 size_loss=0.34 sim_loss=0.19 r_p=0.30 sgs [0, -7, 2, -4, 5, -1, -8, 8, -2, -5, -6, 1, 10, 11, -3, 3, 9, 6]
+n_id 271 len 8 p_loss=8.67 size_loss=0.18 sim_loss=1.33 r_p=0.20 sgs [0, 1, -8, -3, 3, 2, 4, -2]
+n_id 277 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.36 r_p=0.30 sgs [0, 7, 4, 3, 1, 12, 5, 9, 10, 8, 16, 21, 23, 22, 17, 2, 6, 13, 11, 19]
+n_id 320 len 19 p_loss=0.12 size_loss=0.42 sim_loss=0.59 r_p=0.30 sgs [0, -15, 3, -1, -19, -2, -6, -11, -18, 6, -4, 2, -14, -7, -16, -8, 1, -17, 5]
+n_id 328 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.61 r_p=0.20 sgs [0, 1, -1, 8, 12, 15, 20, 26, 16, 27, 3, 25, 14, 13, 6, 4, 24, 23, 9, 11]
+n_id 377 len 17 p_loss=0.27 size_loss=0.38 sim_loss=0.54 r_p=0.30 sgs [0, -16, -3, 1, -1, -6, -14, -12, -4, -2, -20, -15, -7, -9, -18, -13, -21]
+n_id 380 len 18 p_loss=0.00 size_loss=0.34 sim_loss=0.00 r_p=0.30 sgs [0, 3, 1, -1, 11, 5, 7, 15, 13, 12, 9, 16, 4, 2, 6, 10, 8, 14]
+n_id 410 len 17 p_loss=0.00 size_loss=0.38 sim_loss=0.36 r_p=0.30 sgs [0, -1, -8, 3, 6, 5, 2, -2, -3, -12, -9, -13, -11, -7, -5, -10, 1]
+n_id 419 len 10 p_loss=0.00 size_loss=0.18 sim_loss=1.27 r_p=0.20 sgs [0, -1, 1, 7, 23, 26, 4, 3, 9, 18]
+n_id 463 len 9 p_loss=7.45 size_loss=0.18 sim_loss=1.39 r_p=0.30 sgs [0, 3, -11, 1, 6, 2, 4, -13, -14]
+n_id 473 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.45 r_p=0.30 sgs [0, 1, 8, 5, 2, 16, 15, 19, 3, -1, 24, 11, 12, 10, 6, 13, 9, 21, 4, 18]
+n_id 521 len 9 p_loss=5.51 size_loss=0.22 sim_loss=1.32 r_p=0.30 sgs [0, -9, 1, -3, 3, 2, -2, 4, -1]
+n_id 528 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.49 r_p=0.20 sgs [0, -1, 6, 2, 1, 23, 18, 3, 16, 5, 20, 8, 15, 17, 24, 10, 14, 7, 22, 19]
+n_id 576 len 20 p_loss=0.21 size_loss=0.46 sim_loss=0.53 r_p=0.30 sgs [0, -14, -3, 3, -1, 1, -4, 2, 4, -2, -22, -16, -18, -11, -10, -6, -12, -21, -13, -20]
+n_id 581 len 19 p_loss=0.00 size_loss=0.36 sim_loss=0.29 r_p=0.30 sgs [0, 3, 1, 19, 8, 4, 13, 14, 2, 18, 20, 6, 16, 9, 7, 17, 11, 15, 5]
+n_id 615 len 19 p_loss=0.00 size_loss=0.42 sim_loss=0.24 r_p=0.40 sgs [0, -1, 3, 1, 2, 6, 4, 5, -12, -9, -5, 7, -2, -11, -8, -7, -6, -4, -3]
+n_id 629 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.52 r_p=0.30 sgs [0, -3, 2, 3, 14, 21, 4, 15, 11, 19, 9, 16, 6, 20, -4, 13, 7, 8, 18, 17]
+n_id 659 len 12 p_loss=0.00 size_loss=0.26 sim_loss=0.57 r_p=0.30 sgs [0, -7, -1, 3, -8, 6, -5, 2, -2, 1, -6, -3]
+n_id 666 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.18 r_p=0.30 sgs [0, 1, 7, 3, 20, 2, 17, 14, 11, 21, 10, 12, 8, 19, 13, 4, 15, 6, 5, 9]
+n_id 702 len 14 p_loss=0.00 size_loss=0.34 sim_loss=0.73 r_p=0.30 sgs [0, -10, 3, 1, -1, 6, 4, 2, -11, -4, -3, 7, 5, -5]
+n_id 710 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.54 r_p=0.30 sgs [0, 1, 3, 22, 14, 2, 13, 10, 15, 8, 6, 4, 26, 12, 16, 18, 5, 9, 19, 23]
+n_id 756 len 20 p_loss=0.00 size_loss=0.46 sim_loss=0.50 r_p=0.30 sgs [0, -19, 3, 1, -1, 6, -12, 4, 2, 7, -10, -11, 5, -8, -18, -17, -16, -15, -13, -4]
+n_id 764 len 18 p_loss=0.00 size_loss=0.34 sim_loss=0.30 r_p=0.30 sgs [0, 1, 5, 4, 6, 8, 9, 14, 12, 16, 3, 2, 10, 11, 7, 18, 13, 17]
+n_id 801 len 11 p_loss=0.00 size_loss=0.28 sim_loss=0.93 r_p=0.30 sgs [0, -1, -7, -3, 3, -2, 2, -4, -5, -13, 1]
+n_id 805 len 17 p_loss=0.00 size_loss=0.32 sim_loss=0.30 r_p=0.30 sgs [0, 2, 4, 1, 6, 14, 10, 7, 13, 16, 12, 17, 19, 3, 5, 8, 11]
+n_id 838 len 11 p_loss=0.00 size_loss=0.28 sim_loss=0.58 r_p=0.30 sgs [0, -8, -3, 1, -1, -6, -12, -2, -4, -7, -5]
+n_id 841 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.44 r_p=0.30 sgs [0, 1, 4, 3, -1, 7, 10, 19, 8, 11, 9, 18, 13, 5, 17, 2, 14, 6, 22, 16]
+n_id 867 len 15 p_loss=9.25 size_loss=0.28 sim_loss=1.06 r_p=0.30 sgs [0, 4, 9, -2, 12, 10, 5, 7, 6, 11, -1, 17, 8, 1, 13]
+n_id 893 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.54 r_p=0.30 sgs [0, -1, 3, 10, 23, 1, 7, 14, 17, 11, 16, 24, 4, 9, 21, 13, 8, 15, 18, 25]
+n_id 933 len 16 p_loss=0.01 size_loss=0.36 sim_loss=0.49 r_p=0.30 sgs [0, -7, -1, 3, 6, 2, -2, 5, 1, -12, -11, -3, -9, -13, -10, -6]
+n_id 940 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.25 r_p=0.30 sgs [0, 3, 10, 1, 16, 2, 7, 6, 14, 8, 11, 12, 22, 20, 19, 9, 4, 15, 18, 21]
+n_id 983 len 12 p_loss=0.00 size_loss=0.30 sim_loss=1.05 r_p=0.30 sgs [0, -7, 1, -1, -3, 3, -4, 4, -2, 2, -11, -20]
+n_id 989 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.56 r_p=0.30 sgs [0, 2, 1, 3, 16, 13, 25, 4, -1, 9, 6, 11, 21, 17, 23, 19, 26, 24, 7, 20]
+n_id 1044 len 12 p_loss=3.81 size_loss=0.26 sim_loss=1.17 r_p=0.30 sgs [0, -3, -20, -1, -2, -6, -4, -28, -12, -7, -15, -27]
+n_id 1045 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.56 r_p=0.30 sgs [0, 3, 6, 2, 8, 1, 24, 26, 4, 14, 27, 19, 15, 10, 11, 23, 7, 20, 9, 12]
+n_id 1086 len 12 p_loss=8.39 size_loss=0.24 sim_loss=0.80 r_p=0.30 sgs [0, -12, -3, 1, 2, -2, -13, -11, -6, -9, -10, -8]
+n_id 1094 len 18 p_loss=0.00 size_loss=0.34 sim_loss=0.55 r_p=0.30 sgs [0, 7, -2, 6, 1, 11, 19, 15, 8, 12, 17, 18, 14, 10, -5, 9, -1, -4]
+n_id 1129 len 13 p_loss=0.00 size_loss=0.30 sim_loss=0.66 r_p=0.30 sgs [0, -6, -1, 3, -3, -2, 2, -4, -15, -12, -14, -5, -10]
+n_id 1135 len 20 p_loss=0.00 size_loss=0.38 sim_loss=0.52 r_p=0.30 sgs [0, 2, -1, 1, 6, 17, 15, 14, 10, 3, 5, 22, 20, 13, 4, 12, 24, -2, 8, 9]
+n_id 1171 len 14 p_loss=0.39 size_loss=0.30 sim_loss=0.57 r_p=0.30 sgs [0, 3, -5, -1, 2, 1, -2, 6, -9, -4, -7, -10, -8, -6]
+avg_p_loss=0.63 avg_size_loss=0.32 avg_sim_loss=0.57 r_p=0.29
+====================
+[Epoch    1]
+Update L
+torch.float64
+iter 0 train_loss -0.1217567465209467
+torch.float64
+iter 1 train_loss -0.12175658749459826
+torch.float64
+iter 2 train_loss -0.12176268109857682
+torch.float64
+iter 3 train_loss -0.12177176203722728
+torch.float64
+iter 4 train_loss -0.1217795952228833
+torch.float64
+iter 5 train_loss -0.12178359257898429
+torch.float64
+iter 6 train_loss -0.12178740846335623
+torch.float64
+iter 7 train_loss -0.12179311629968419
+torch.float64
+iter 8 train_loss -0.12179945731836218
+torch.float64
+iter 9 train_loss -0.12180384190664123
+Update G
+Reward=-1.86 PLoss=-1.54 Length=16.4
+Elapsed Time: 567.7s
+====================
+[Epoch    2]
+Update G
+Reward=-1.69 PLoss=-1.46 Length=17.0
+Elapsed Time: 272.0s
+====================
+[Epoch    3]
+Update G
+Reward=-1.19 PLoss=-1.22 Length=18.1
+Elapsed Time: 272.2s
+====================
+[Epoch    4]
+Update G
+Reward=-1.16 PLoss=-1.08 Length=18.5
+Elapsed Time: 282.6s
+====================
+[Epoch    5]
+Update G
+Reward=-1.18 PLoss=-1.18 Length=19.0
+Elapsed Time: 298.1s
+====================
+[Epoch    6]
+Update L
+torch.float64
+iter 0 train_loss -0.13304376106849197
+torch.float64
+iter 1 train_loss -0.13304947978844828
+torch.float64
+iter 2 train_loss -0.13304950311625666
+torch.float64
+iter 3 train_loss -0.13304749029879573
+torch.float64
+iter 4 train_loss -0.13304609424798905
+torch.float64
+iter 5 train_loss -0.13304608103424168
+torch.float64
+iter 6 train_loss -0.13304799022626065
+torch.float64
+iter 7 train_loss -0.13305176532727228
+torch.float64/home/azzolin/miniconda3/envs/gnn/lib/python3.7/site-packages/torch/nn/functional.py:2887: UserWarning: reduction: 'mean' divides the total loss by both the batch size and the support size.'batchmean' divides only by the batch size, and aligns with the KL div math definition.'mean' will be changed to behave the same as 'batchmean' in the next major release.
+  "reduction: 'mean' divides the total loss by both the batch size and the support size."
+run_RG_explainer.py:549: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  self.pretrain_nodes = np.array(self.pretrain_nodes)
+
+iter 8 train_loss -0.13305665760617086
+torch.float64
+iter 9 train_loss -0.1330614604035614
+Update G
+Reward=-1.23 PLoss=-1.17 Length=19.0
+Elapsed Time: 711.3s
+====================
+[Epoch    7]
+Update G
+Reward=-1.05 PLoss=-1.02 Length=19.3
+Elapsed Time: 302.7s
+====================
+[Epoch    8]
+Update G
+Reward=-1.15 PLoss=-1.07 Length=19.3
+Elapsed Time: 304.1s
+====================
+[Epoch    9]
+Update G
+Reward=-1.02 PLoss=-0.98 Length=19.5
+Elapsed Time: 325.3s
+====================
+[Epoch   10]
+Update G
+Reward=-1.24 PLoss=-1.19 Length=19.3
+Elapsed Time: 341.2s
+====================
+[Epoch   11]
+Update L
+torch.float64
+iter 0 train_loss -0.13893175475884692
+torch.float64
+iter 1 train_loss -0.13893796085094515
+torch.float64
+iter 2 train_loss -0.13894101441401985
+torch.float64
+iter 3 train_loss -0.1389390663665994
+torch.float64
+iter 4 train_loss -0.13893552514304727
+torch.float64
+iter 5 train_loss -0.13893370227943633
+torch.float64
+iter 6 train_loss -0.1389345345995413
+torch.float64
+iter 7 train_loss -0.13893750017496162
+torch.float64
+iter 8 train_loss -0.138941257276484
+torch.float64
+iter 9 train_loss -0.13894366610231837
+Update G
+Reward=-1.15 PLoss=-1.12 Length=19.5
+Elapsed Time: 757.0s
+====================
+[Epoch   12]
+Update G
+Reward=-1.01 PLoss=-1.03 Length=19.2
+Elapsed Time: 312.4s
+====================
+[Epoch   13]
+Update G
+Reward=-1.01 PLoss=-1.08 Length=19.2
+Elapsed Time: 325.7s
+====================
+[Epoch   14]
+Update G
+Reward=-1.01 PLoss=-1.10 Length=19.5
+Elapsed Time: 307.0s
+====================
+[Epoch   15]
+Update G
+Reward=-1.03 PLoss=-1.18 Length=19.3
+Elapsed Time: 303.2s
+====================
+[Epoch   16]
+Update L
+torch.float64
+iter 0 train_loss -0.1339000636910722
+torch.float64
+iter 1 train_loss -0.1339032093888836
+torch.float64
+iter 2 train_loss -0.1339047231629637
+torch.float64
+iter 3 train_loss -0.13390485720078973
+torch.float64
+iter 4 train_loss -0.13390418224985104
+torch.float64
+iter 5 train_loss -0.1339032566749701
+torch.float64
+iter 6 train_loss -0.13390255138441087
+torch.float64
+iter 7 train_loss -0.13390238549425004
+torch.float64
+iter 8 train_loss -0.1339028865044461
+torch.float64
+iter 9 train_loss -0.13390389540802283
+Update G
+Reward=-1.05 PLoss=-1.24 Length=19.5
+Elapsed Time: 763.2s
+====================
+[Epoch   17]
+Update G
+Reward=-1.10 PLoss=-1.25 Length=19.5
+Elapsed Time: 308.5s
+====================
+[Epoch   18]
+Update G
+Reward=-1.05 PLoss=-1.56 Length=19.3
+Elapsed Time: 302.8s
+====================
+[Epoch   19]
+Update G
+Reward=-1.00 PLoss=-2.11 Length=19.1
+Elapsed Time: 297.1s
+====================
+[Epoch   20]
+Update G
+Reward=-1.08 PLoss=-2.49 Length=19.3
+Elapsed Time: 303.0s
+====================
+[Epoch   21]
+Update L
+torch.float64
+iter 0 train_loss -0.14028722934158736
+torch.float64
+iter 1 train_loss -0.14028872361703074
+torch.float64
+iter 2 train_loss -0.14029004992054192
+torch.float64
+iter 3 train_loss -0.14029099929449518
+torch.float64
+iter 4 train_loss -0.1402916407750815
+torch.float64
+iter 5 train_loss -0.14029200119943594
+torch.float64
+iter 6 train_loss -0.14029221818714968
+torch.float64
+iter 7 train_loss -0.14029234767599366
+torch.float64
+iter 8 train_loss -0.14029238115454074
+torch.float64
+iter 9 train_loss -0.14029252860430602
+Update G
+Reward=-1.06 PLoss=-2.77 Length=19.5
+Elapsed Time: 731.2s
+====================
+[Epoch   22]
+Update G
+Reward=-1.06 PLoss=-3.90 Length=19.4
+Elapsed Time: 304.6s
+====================
+[Epoch   23]
+Update G
+Reward=-1.01 PLoss=-5.85 Length=19.2
+Elapsed Time: 300.1s
+====================
+[Epoch   24]
+Update G
+Reward=-1.36 PLoss=-5.58 Length=19.5
+Elapsed Time: 313.8s
+====================
+[Epoch   25]
+Update G
+tensor([-748.1443], dtype=torch.float64, grad_fn=<CatBackward0>)
+tensor([0.], dtype=torch.float64, grad_fn=<ExpBackward0>)
+Traceback (most recent call last):
+  File "run_RG_explainer.py", line 724, in <module>
+    main(args)
+  File "run_RG_explainer.py", line 669, in main
+    runner.run()
+  File "run_RG_explainer.py", line 643, in run
+    self.train_g_step(g_it)
+  File "run_RG_explainer.py", line 579, in train_g_step
+    _, r, policy_loss, length = self.g.train_from_rewards(np.array(self.eval_seeds)[shuffle_index], self.score_fn)
+  File "/home/azzolin/RGExplainer_new/components/generator.py", line 143, in train_from_rewards
+    selected_nodes, logps, values, entropys = self.sample_episodes(seeds)
+  File "/home/azzolin/RGExplainer_new/components/generator.py", line 129, in sample_episodes
+    return self._sample_trajectories(env)
+  File "/home/azzolin/RGExplainer_new/components/generator.py", line 318, in _sample_trajectories
+    actions, logps, entropys = self._sample_actions(batch_logits)
+  File "/home/azzolin/RGExplainer_new/components/generator.py", line 373, in _sample_actions
+    action = torch.multinomial(ps, 1).item()
+RuntimeError: invalid multinomial distribution (sum of probabilities <= 0)

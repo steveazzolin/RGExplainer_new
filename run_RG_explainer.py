@@ -74,7 +74,7 @@ class Runner(torch.nn.Module):
         self.graphs, self.nodefeats, ground_truth_labels, self.task = self.load_data()
         self.graphs_ori = copy.deepcopy(self.graphs)
         self.labels = copy.deepcopy(ground_truth_labels)
-        print(self.labels[0], self.test_mask[0], str(self.labels[0].item()))
+        print("Using", self.device)
          
         print("Num graphs = ", len(self.graphs))
         # Load pretrained models

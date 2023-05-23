@@ -242,7 +242,7 @@ class Runner(torch.nn.Module):
     def load_data(self, shuffle=True):
         args = self.args
         # Load complete dataset
-        graphs, features, ground_truth_labels, _, _, self.test_mask = dataset_loaders.load_dataset(args.paper, args.dataset, shuffle = shuffle)
+        graphs, features, ground_truth_labels, _, _, self.train_idx, self.test_idx, self.test_mask = dataset_loaders.load_dataset(args.paper, args.dataset, shuffle = shuffle)
         if isinstance(graphs, list):  # We're working with a model for graph classification
             task = "graph_task"
         else:
@@ -360,7 +360,6 @@ class Runner(torch.nn.Module):
             sim_loss = sim_loss.detach().numpy()
         else:
             sim_loss = np.array([0.0]*len(prediction_loss))
-
         return prediction_loss, size_loss, sim_loss, radius_p
 
 
@@ -416,20 +415,45 @@ class Runner(torch.nn.Module):
                         print("sto creando il folder", PATH_to_store + f"{t}/{c.item()}/")
 
             print("\n\nSAVING EXPLANATIONS\n\n")
-            c = {"train/": 0, "test/": 0}
-            for sample_id, (edge_index, weights) in enumerate(explanations):
-                split = "test/" if self.test_mask[sample_id] else "train/"
+
+            for j, graph_idx in enumerate(self.train_idx):
+                split = "train/"
+                edge_index, weights = explanations[graph_idx]
                 num_nodes = edge_index.flatten().unique().shape[0]
 
                 data = ptgeom.data.Data(edge_index=edge_index, edge_imp=weights, num_nodes=num_nodes)
                 g = nx.Graph(ptgeom.utils.to_networkx(data, edge_attrs=["edge_imp"]))
 
+                gid = str(j) + "_" + str(self.original_preds[graph_idx].item()) + ".gpickle"
+                path = PATH_to_store + split + str(self.labels[graph_idx].item()) + "/" + gid
+                nx.write_gpickle(g, path)    
+
+            for j, graph_idx in enumerate(self.test_idx):
+                split = "test/"
+                edge_index, weights = explanations[graph_idx]
+                num_nodes = edge_index.flatten().unique().shape[0]
+
+                data = ptgeom.data.Data(edge_index=edge_index, edge_imp=weights, num_nodes=num_nodes)
+                g = nx.Graph(ptgeom.utils.to_networkx(data, edge_attrs=["edge_imp"]))
+
+                gid = str(j) + "_" + str(self.original_preds[graph_idx].item()) + ".gpickle"
+                path = PATH_to_store + split + str(self.labels[graph_idx].item()) + "/" + gid
+                nx.write_gpickle(g, path)     
+
+
+            #for sample_id, (edge_index, weights) in enumerate(explanations):
+            #    split = "test/" if self.test_mask[sample_id] else "train/"
+            #    num_nodes = edge_index.flatten().unique().shape[0]
+
+            #   data = ptgeom.data.Data(edge_index=edge_index, edge_imp=weights, num_nodes=num_nodes)
+            #    g = nx.Graph(ptgeom.utils.to_networkx(data, edge_attrs=["edge_imp"]))
+
                 #print(nx.get_edge_attributes(g, "edge_imp"))
 
-                gid = c[split] + "_" + str(self.original_preds[sample_id].item()) + ".gpickle"
-                path = PATH_to_store + split + str(self.labels[sample_id].item()) + "/" + gid
-                nx.write_gpickle(g, path)
-                c[split] += 1
+            #    gid = str(c[split]) + "_" + str(self.original_preds[sample_id].item()) + ".gpickle"
+            #    path = PATH_to_store + split + str(self.labels[sample_id].item()) + "/" + gid
+            #    nx.write_gpickle(g, path)
+            #    c[split] += 1
 
 
         #auc_score = self.auc_eval.get_score(explanations)
@@ -440,12 +464,19 @@ class Runner(torch.nn.Module):
         if is_check:
             # check whether nodes belong to one graph
             flag_check = True
-            for i in range(len(nodes)-1):
-                if self.n_to_g_index[nodes[i]] != self.n_to_g_index[nodes[i+1]]:
-                    flag_check = False
-                    break
-            if flag_check == False:
-                print("Nodes do not belong to one graph!")
+
+            try:
+                for i in range(len(nodes)-1):
+                    if self.n_to_g_index[nodes[i]] != self.n_to_g_index[nodes[i+1]]:
+                        flag_check = False
+                        break
+                if flag_check == False:
+                    print("Nodes do not belong to one graph!")
+            except:
+                print("ERRORE")
+                print(len(nodes))
+                print(nodes)
+                print(len(self.n_to_g_index))
 
         return self.n_to_g_index[nodes[0]]
 
@@ -459,7 +490,7 @@ class Runner(torch.nn.Module):
     def score_fn(self, cs):
         cs = [x[:-1] if x[-1] == 'EOS' else x for x in cs]
         batch_g = [self.prepare_graph(i, x) for i, x in enumerate(cs)]
-        
+
         # Prediction loss
         if self.task == "node_task":
             masked_preds = [self.trained_model(self.nodefeats, g)[cs[i][0]] for i, g in enumerate(batch_g)]
@@ -477,7 +508,7 @@ class Runner(torch.nn.Module):
         # Size loss
         if args.size_reg > 0:
             v += args.size_reg * torch.FloatTensor([g.size()[1] for g in batch_g])
-        
+
         # Raidus penalty
         if args.radius_penalty > 0:
             v += args.radius_penalty * torch.FloatTensor([self.graphs.subgraph_depth(x) for x in cs])
@@ -557,8 +588,9 @@ class Runner(torch.nn.Module):
     def pretrain(self):
         args = self.args
         arg_dict = vars(args)
-        pretrain_related_args = ['pretrain_list', 'pretrain_set', 'pretrain_l_iter', 'pretrain_l_sample_rate', 
-                                'hidden_size', 'dataset', 'seed', 'max_size', 'n_hop', 'model', 'model_name', 'paper',
+        print(args.model)
+        pretrain_related_args = ['pretrain_list', 'pretrain_set', 'pretrain_l_iter', 'pretrain_l_sample_rate',
+                                'hidden_size', 'dataset', 'seed', 'max_size', 'n_hop', 'model', 'paper', 'model_name',
                                 'l_lr', 'g_lr',  'pretrain_g_batch_size', 'with_attr', 'ds_name']
         code = ' '.join([str(arg_dict[k]) for k in pretrain_related_args])
         code = hashlib.md5(code.encode('utf-8')).hexdigest().upper()

@@ -5,7 +5,21 @@ from models.GNN_paper import NodeGCN as GNN_NodeGCN
 from models.GNN_paper import GraphGCN as GNN_GraphGCN
 from models.PG_paper import NodeGCN as PG_NodeGCN
 from models.PG_paper import GraphGCN as PG_GraphGCN
-from models.SURVEY_paper import SURVEY_BA_2grid_Cheb, SURVEY_BA_2grid_GCN, SURVEY_BA_2grid_Set2Set, SURVEY_BA_2grid_MinCutPool
+from models.SURVEY_paper import (
+    SURVEY_BA_2grid_Cheb,
+    SURVEY_BA_2grid_GCN,
+    SURVEY_BA_2grid_Set2Set,
+    SURVEY_BA_2grid_MinCutPool,
+    SURVEY_BA_2grid_HO,
+    SURVEY_BA_2grid_GIN,
+
+    SURVEY_BA_2grid_house_Cheb,
+    SURVEY_BA_2grid_house_GCN,
+    SURVEY_BA_2grid_house_Set2Set,
+    SURVEY_BA_2grid_house_MinCutPool,
+    SURVEY_BA_2grid_house_HO,
+    SURVEY_BA_2grid_house_GIN
+)
 
 
 def string_to_model(paper, dataset, model):
@@ -54,6 +68,22 @@ def string_to_model(paper, dataset, model):
             return SURVEY_BA_2grid_Set2Set().double()
         elif dataset.lower() in ['ba_2grid'] and model.lower() in ['mincutpooling']:
             return SURVEY_BA_2grid_MinCutPool().double()
+        elif dataset.lower() in ['ba_2grid'] and model.lower() in ['ho']:
+            return SURVEY_BA_2grid_HO().double()
+        elif dataset.lower() in ['ba_2grid'] and model.lower() in ['gin']:
+            return SURVEY_BA_2grid_GIN().double()
+        elif dataset.lower() in ['ba_2grid_house'] and model.lower() in ['cheb']:
+            return SURVEY_BA_2grid_house_Cheb().double()
+        elif dataset.lower() in ['ba_2grid_house'] and model.lower() in ['gcn']:
+            return SURVEY_BA_2grid_house_GCN().double()
+        elif dataset.lower() in ['ba_2grid_house'] and model.lower() in ['set2set']:
+            return SURVEY_BA_2grid_house_Set2Set().double()
+        elif dataset.lower() in ['ba_2grid_house'] and model.lower() in ['mincutpooling']:
+            return SURVEY_BA_2grid_house_MinCutPool().double()
+        elif dataset.lower() in ['ba_2grid_house'] and model.lower() in ['ho']:
+            return SURVEY_BA_2grid_house_HO().double()
+        elif dataset.lower() in ['ba_2grid_house'] and model.lower() in ['gin']:
+            return SURVEY_BA_2grid_house_GIN().double()
         else:
             print(paper, dataset, model)
             raise NotImplementedError

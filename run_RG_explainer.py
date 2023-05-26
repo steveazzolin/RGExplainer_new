@@ -19,7 +19,7 @@ from evaluation.AUCEvaluation import AUCEvaluation
 import torch_geometric as ptgeom
 import networkx as nx
 
-torch.set_num_threads(4)
+torch.set_num_threads(2)
 
 def pretrain_g(g: Generator, train_comms, eval_seeds, max_size, bs, n, score_fn, dataset, writer, use_set=True):
     eval_seeds = np.array(eval_seeds)

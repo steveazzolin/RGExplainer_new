@@ -98,16 +98,23 @@ def load_dataset(paper, _dataset, skip_preproccessing=False, shuffle=True):
         if _dataset.lower() == "ba_2grid":
             with open(f'{data_path}BA-2grid.pkl', 'rb') as fin:
                 (adjs, features, labels) = pkl.load(fin)
-            print(labels[:50])
             edge_index = adj_to_edge_index(adjs)
             idx = torch.arange(len(adjs))
-            _, test_idx = train_test_split(idx, train_size=0.8, stratify=labels, random_state=10)
+            train_idx, test_idx = train_test_split(idx, train_size=0.8, stratify=labels, random_state=10)
+            test_mask = np.full(len(adjs), False, dtype=bool)
+            test_mask[test_idx] = True
+        elif _dataset.lower() == "ba_2grid_house":
+            with open(f'{data_path}BA-2grid-house.pkl', 'rb') as fin:
+                (adjs, features, labels) = pkl.load(fin)
+            edge_index = adj_to_edge_index(adjs)
+            idx = torch.arange(len(adjs))
+            train_idx, test_idx = train_test_split(idx, train_size=0.8, stratify=labels, random_state=10)
             test_mask = np.full(len(adjs), False, dtype=bool)
             test_mask[test_idx] = True
         else:
             raise ValueError(f"{_dataset} not found")
         features = [torch.tensor(f) for f in features]
-        return edge_index, features, labels, None, None, test_mask
+        return edge_index, features, labels, None, None, train_idx, test_idx, test_mask
     else:
         if _dataset[:3] == "syn": # Load node_dataset
             adj, features, labels, train_mask, val_mask, test_mask = _load_node_dataset(_dataset)

@@ -364,13 +364,17 @@ class Generator:
             ps = torch.exp(logits)
             entropy = -(ps * logits).sum()
 
-            try:
-                torch.multinomial(ps, 1).item()
-            except:
-                print(logits)
-                print(ps)
+            # try:
+            #     torch.multinomial(ps, 1).item()
+            # except:
+            #     print("multinomial error")
+            #     print(logits)
+            #     print(ps)
 
-            action = torch.multinomial(ps, 1).item()
+            if ps.shape[0] == 1 and ps[0] < 1e-4:
+                action = 0
+            else:
+                action = torch.multinomial(ps, 1).item()
             logp = logits[action]
             batch.append([action, logp, entropy])
         actions, logps, entropys = zip(*batch)

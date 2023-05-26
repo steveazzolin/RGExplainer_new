@@ -527,6 +527,8 @@ class SURVEY_BA_2grid_house_HO(torch.nn.Module):
         if batch is None:  # No batch given
             batch = torch.zeros(x.size(0), dtype=torch.long)
 
+        print(x.dtype)
+        exit()
         embed = self.embedding(x, edge_index, edge_weights)
         x = global_mean_pool(embed, batch)
         x = F.relu(self.lin1(x))
@@ -552,3 +554,203 @@ class SURVEY_BA_2grid_house_HO(torch.nn.Module):
         return x
 
 
+
+
+##
+# HOUSES COLOR
+##
+
+class SURVEY_houses_color_Cheb(torch.nn.Module):
+    def __init__(self, num_features=3, num_classes=2):
+        super(SURVEY_houses_color_Cheb, self).__init__()
+
+        self.conv1 = ChebConv(num_features, 30, K=5)
+        self.conv2 = ChebConv(30, 30, K=5)
+
+        self.lin1 = Linear(30, 30)
+        self.lin2 = Linear(30, num_classes)
+
+    def forward(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = global_mean_pool(embed, batch)
+        x = F.relu(self.lin1(x))
+        x = self.lin2(x)
+        return x
+
+    def embedding(self, x, edge_index, edge_weights=None):
+        if edge_weights is None:
+            edge_weights = torch.ones(edge_index.size(1))
+
+        x = self.conv1(x, edge_index, edge_weights)
+        x = x.relu()
+        x = self.conv2(x, edge_index, edge_weights)
+        x = x.relu()
+        return x
+
+    def graph_embedding(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = global_mean_pool(embed, batch)
+        return x
+
+
+
+class SURVEY_houses_color_GCN(torch.nn.Module):
+    def __init__(self, num_features=3, num_classes=2):
+        super(SURVEY_houses_color_GCN, self).__init__()
+
+        self.conv1 = GCNConv(num_features, 30)
+        self.conv2 = GCNConv(30, 30)
+
+        self.lin1 = Linear(30, 15)
+        self.lin2 = Linear(15, num_classes)
+
+    def forward(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+        
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = global_mean_pool(embed, batch)
+        x = F.relu(self.lin1(x))
+        x = self.lin2(x)
+        return x
+
+    def embedding(self, x, edge_index, edge_weights=None):
+        if edge_weights is None:
+            edge_weights = torch.ones(edge_index.size(1))
+
+        x = self.conv1(x, edge_index, edge_weights)
+        x = x.relu()
+        x = self.conv2(x, edge_index, edge_weights)
+        x = x.relu()
+        return x
+
+    def graph_embedding(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = global_mean_pool(embed, batch)
+        return x
+    
+
+class SURVEY_houses_color_GIN(torch.nn.Module):
+    def __init__(self, num_features=3, num_classes=2):
+        super(SURVEY_houses_color_GIN, self).__init__()
+
+        self.mlp1 = torch.nn.Linear(num_features, 30)
+        self.conv1 = GINConv(self.mlp1)
+        self.mlp2 = torch.nn.Linear(30, 30)
+        self.conv2 = GINConv(self.mlp2)
+
+        self.lin1 = Linear(30,30)
+        self.lin2 = Linear(30,num_classes)
+
+    def forward(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = global_mean_pool(embed, batch)
+        x = F.relu(self.lin1(x))
+        x = self.lin2(x)
+        return x
+
+    def embedding(self, x, edge_index, edge_weights=None):
+        x = self.conv1(x, edge_index)
+        x = x.relu()
+        x = self.conv2(x, edge_index)
+        x = x.relu()
+        return x
+
+    def graph_embedding(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = global_mean_pool(embed, batch)
+        return x
+
+
+class SURVEY_houses_color_Set2Set(torch.nn.Module):
+    def __init__(self, num_features=3, num_classes=2):
+        super(SURVEY_houses_color_Set2Set, self).__init__()
+
+        self.conv1 = GCNConv(num_features, 30)
+        self.conv2 = GCNConv(30, 30)
+        self.set2set = Set2Set(30, 7)
+
+        self.lin1 = Linear(60, 15)
+        self.lin2 = Linear(15, num_classes)
+
+    def forward(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = self.set2set(embed, batch)
+        x = F.relu(self.lin1(x))
+        x = self.lin2(x)
+        return x
+
+    def embedding(self, x, edge_index, edge_weights=None):
+        if edge_weights is None:
+            edge_weights = torch.ones(edge_index.size(1))
+
+        x = self.conv1(x, edge_index, edge_weights)
+        x = x.relu()
+        x = self.conv2(x, edge_index, edge_weights)
+        x = x.relu()
+        return x
+
+    def graph_embedding(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = self.set2set(embed, batch)
+        return x
+
+
+class SURVEY_houses_color_HO(torch.nn.Module):
+    def __init__(self, num_features=3, num_classes=2):
+        super(SURVEY_houses_color_HO, self).__init__()
+
+        self.conv1 = GraphConv(num_features, 30)
+        self.conv2 = GraphConv(30, 30)
+
+        self.lin1 = Linear(30, 30)
+        self.lin2 = Linear(30, num_classes)
+
+    def forward(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = global_mean_pool(embed, batch)
+        x = F.relu(self.lin1(x))
+        x = self.lin2(x)
+        return x
+
+    def embedding(self, x, edge_index, edge_weights=None):
+        if edge_weights is None:
+            edge_weights = torch.ones(edge_index.size(1))
+
+        x = self.conv1(x, edge_index, edge_weights)
+        x = x.relu()
+        x = self.conv2(x, edge_index, edge_weights)
+        x = x.relu()
+        return x
+
+    def graph_embedding(self, x, edge_index, batch=None, edge_weights=None):
+        if batch is None:  # No batch given
+            batch = torch.zeros(x.size(0), dtype=torch.long)
+
+        embed = self.embedding(x, edge_index, edge_weights)
+        x = global_mean_pool(embed, batch)
+        return x

@@ -25,6 +25,14 @@ from models.SURVEY_paper import (
     SURVEY_houses_color_Set2Set,
     SURVEY_houses_color_HO,
     SURVEY_houses_color_GIN,
+    SURVEY_houses_color_GAT,
+    SURVEY_houses_color_SAGE,
+
+    SURVEY_stars_Cheb,
+    SURVEY_stars_GCN,
+    SURVEY_stars_Set2Set,
+    SURVEY_stars_HO,
+    SURVEY_stars_GIN,
 )
 
 
@@ -100,6 +108,20 @@ def string_to_model(paper, dataset, model):
             return SURVEY_houses_color_HO().double()
         elif dataset.lower() in ['ba_houses_color'] and model.lower() in ['gin']:
             return SURVEY_houses_color_GIN().double()
+        elif dataset.lower() in ['ba_houses_color'] and model.lower() in ['gat']:
+            return SURVEY_houses_color_GAT().double()
+        elif dataset.lower() in ['ba_houses_color'] and model.lower() in ['sage']:
+            return SURVEY_houses_color_SAGE().double()
+        elif dataset.lower() in ['er_nb_stars2'] and model.lower() in ['cheb']:
+            return SURVEY_stars_Cheb().double()
+        elif dataset.lower() in ['er_nb_stars2'] and model.lower() in ['gcn']:
+            return SURVEY_stars_GCN().double()
+        elif dataset.lower() in ['er_nb_stars2'] and model.lower() in ['set2set']:
+            return SURVEY_stars_Set2Set().double()
+        elif dataset.lower() in ['er_nb_stars2'] and model.lower() in ['ho']:
+            return SURVEY_stars_HO().double()
+        elif dataset.lower() in ['er_nb_stars2'] and model.lower() in ['gin']:
+            return SURVEY_stars_GIN().double()
         else:
             print(paper, dataset, model)
             raise NotImplementedError

@@ -119,6 +119,14 @@ def load_dataset(paper, _dataset, skip_preproccessing=False, shuffle=True):
             train_idx, test_idx = train_test_split(idx, train_size=0.8, stratify=labels, random_state=10)
             test_mask = np.full(len(adjs), False, dtype=bool)
             test_mask[test_idx] = True
+        elif _dataset.lower() == "er_nb_stars2":
+            with open(f'{data_path}ER-nb_stars2.pkl', 'rb') as fin:
+                (adjs, features, labels) = pkl.load(fin)
+            edge_index = adj_to_edge_index(adjs)
+            idx = torch.arange(len(adjs))
+            train_idx, test_idx = train_test_split(idx, train_size=0.8, stratify=labels, random_state=10)
+            test_mask = np.full(len(adjs), False, dtype=bool)
+            test_mask[test_idx] = True
         else:
             raise ValueError(f"{_dataset} not found")
         features = [torch.tensor(f, dtype=float) for f in features]

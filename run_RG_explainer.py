@@ -18,6 +18,7 @@ from models import model_selector
 from evaluation.AUCEvaluation import AUCEvaluation
 import torch_geometric as ptgeom
 import networkx as nx
+import matplotlib.pyplot as plt
 
 torch.set_num_threads(2)
 
@@ -75,7 +76,7 @@ class Runner(torch.nn.Module):
         self.graphs_ori = copy.deepcopy(self.graphs)
         self.labels = copy.deepcopy(ground_truth_labels)
         print("Using", self.device)
-         
+
         print("Num graphs = ", len(self.graphs))
         # Load pretrained models
         self.trained_model, checkpoint = model_selector.model_selector(args.paper, args.dataset, args.model, pretrained=True, return_checkpoint=True)
@@ -106,7 +107,7 @@ class Runner(torch.nn.Module):
                     subgraph_node, _, *_ = ptgeom.utils.k_hop_subgraph(seed_node, nl+1, torch.LongTensor(self.graphs))
                     self.pretrain_nodes.append(subgraph_node.numpy())
                     self.pretrain_eval_nodes.append(seed_node)
-                    if len(subgraph_node)>max_size_in_sg:
+                    if len(subgraph_node) > max_size_in_sg:
                         max_size_in_sg = len(subgraph_node)
             self.pretrain_nodes = np.array(self.pretrain_nodes)
 
@@ -114,12 +115,12 @@ class Runner(torch.nn.Module):
 
             whole_graph_original_preds = self.trained_model(self.nodefeats, self.graphs.edge_index)
             whole_graph_original_preds = torch.argmax(whole_graph_original_preds, 1)
-            print("Prediction Error for Whole Graph:", torch.sum(torch.abs(whole_graph_original_preds - ground_truth_labels)).item()/len(whole_graph_original_preds))
+            print("Prediction Error for Whole Graph:", torch.sum(whole_graph_original_preds != ground_truth_labels).item()/len(whole_graph_original_preds))
 
             subg_original_preds = [self.trained_model(self.nodefeats, self.subgraphs[i])[es] for i, es in enumerate(self.eval_seeds)]
             subg_original_preds = torch.stack(subg_original_preds)
             subg_original_preds = torch.argmax(subg_original_preds, 1)
-            print("Prediction Error for Eval Seeds:", torch.sum(torch.abs(subg_original_preds-ground_truth_labels[self.eval_seeds])).item()/len(subg_original_preds))
+            print("Prediction Error for Eval Seeds:", torch.sum(subg_original_preds != ground_truth_labels[self.eval_seeds]).item()/len(subg_original_preds))
 
             self.original_preds = whole_graph_original_preds
             self.original_embeds = self.trained_model.embedding(self.nodefeats, self.graphs.edge_index)            
@@ -247,6 +248,7 @@ class Runner(torch.nn.Module):
             task = "graph_task"
         else:
             task = "node_task"
+            print("NODE TASK")
         #features = torch.tensor(features)
         ground_truth_labels = torch.tensor(ground_truth_labels)
         return graphs, features, ground_truth_labels, task
@@ -290,14 +292,19 @@ class Runner(torch.nn.Module):
         return l
 
 
-    def prepare_mask(self, o_g, selected_nodes):
+    def prepare_mask(self, o_g, selected_nodes, ori_edge_index=None):
         n_edges = o_g.size()[1]
         n_edges_index = {}
-        for i in range(n_edges):
-            n_edges_index[(int(o_g[0][i]), int(o_g[1][i]))] = i
 
-        rank = torch.zeros(n_edges)
+        if not ori_edge_index is None:
+            n_edges_ori = ori_edge_index.size()[1]
+            for i in range(n_edges_ori):
+                n_edges_index[(int(ori_edge_index[0][i]), int(ori_edge_index[1][i]))] = i
+        else:
+            for i in range(n_edges):
+                n_edges_index[(int(o_g[0][i]), int(o_g[1][i]))] = i
 
+        rank = torch.zeros(n_edges if ori_edge_index is None else n_edges_ori)
         for i in range(len(selected_nodes)):
             for j in range(i):
                 if (int(selected_nodes[i]), int(selected_nodes[j])) in n_edges_index and (int(selected_nodes[j]), int(selected_nodes[i])) in n_edges_index:
@@ -308,12 +315,18 @@ class Runner(torch.nn.Module):
                         print("edge pair error")
 
         mask = rank / (self.args.max_size-1)
-        return (o_g, mask)
+
+        if not ori_edge_index is None:
+            edge_weights = torch.zeros(ori_edge_index.shape[1])
+            for i, (u, v) in enumerate(ori_edge_index.T):
+                edge_weights[i] = mask[n_edges_index[(int(u), int(v))]]
+
+        return o_g, mask, n_edges_index, edge_weights
 
     def eval_loss(self, cs):
         cs = [x[:-1] if x[-1] == 'EOS' else x for x in cs]
         batch_g = [self.prepare_graph(i, x) for i, x in enumerate(cs)]
-        
+
         # Prediction loss
         if self.task == "node_task":
             masked_preds = [self.trained_model(self.nodefeats, g)[cs[i][0]] for i, g in enumerate(batch_g)]
@@ -390,7 +403,7 @@ class Runner(torch.nn.Module):
             print(f"avg_p_loss={np.mean(p_loss):.2f}", f"avg_size_loss={np.mean(s_loss):.2f}", f"avg_sim_loss={np.mean(sim_loss):.2f}", f"r_p={np.mean(r_p):.2f}")
 
         if self.task == "node_task":
-            explanations = [self.prepare_mask(self.subgraphs[i], x) for i, x in enumerate(pred_sgs)]
+            explanations = [self.prepare_mask(self.subgraphs[i], x, self.graphs_ori) for i, x in enumerate(pred_sgs)]
         else:
             explanations = []
             for g_id in self.graph_eval_seeds:
@@ -400,8 +413,33 @@ class Runner(torch.nn.Module):
         #print(explanations[1999])
         #print(self.graphs_ori[0])
 
+        #print(pred_sgs[494])
+        #print(self.graphs_ori.shape, self.labels[494])
+        #print(self.subgraphs[494].shape)
+        #print(explanations[494][0].shape, explanations[494][1].shape)
+        #print(explanations[494][1][explanations[494][2][(494,490)]], explanations[494][2][(494,490)])
+        #print(explanations[494][1][explanations[494][2][(490,494)]], explanations[494][2][(490,494)])
+        #print(self.prepare_mask(self.subgraphs[494], pred_sgs[494], None)[1])
+        #print(self.prepare_mask(self.subgraphs[494], pred_sgs[494], None)[2])
 
-        # Convert explanation to custom format
+        # subset, edge_index, mapping, edge_mask = ptgeom.utils.k_hop_subgraph(439, 3, self.graphs_ori, relabel_nodes=True)
+        # data = ptgeom.data.Data(edge_index=edge_index, edge_weights=explanations[439][3][edge_mask])
+        # print(explanations[439][3][edge_mask])
+        # G = ptgeom.utils.to_networkx(data, edge_attrs=["edge_weights"])
+
+        # color_map = []
+        # for edge in G.edges():
+        #     if nx.get_edge_attributes(G, "edge_weights")[edge] > 0:
+        #         color_map.append('red')
+        #     else:
+        #         color_map.append('blue')
+
+        # plt.figure(figsize=(15,15))
+        # nx.draw(G, node_size=30, with_labels=True, edge_color=color_map)
+        # plt.savefig("run_G.png")
+        # exit()
+
+        # Convert explanation to required format for the evaluation by Longa et al.
         if save_expl:
             task = "GraphClassification" if self.task == "graph_task" else "NodeClassification"
             PATH_to_store = (f"../Explaining-the-Explainers-in-Graph-Neural-Networks/"
@@ -416,45 +454,43 @@ class Runner(torch.nn.Module):
 
             print("\n\nSAVING EXPLANATIONS\n\n")
 
-            for j, graph_idx in enumerate(self.train_idx):
-                split = "train/"
-                edge_index, weights = explanations[graph_idx]
-                num_nodes = edge_index.flatten().unique().shape[0]
+            if self.task == "node_task":
+                for i, node_idx in enumerate(self.eval_seeds):
+                    assert i == node_idx
+                    split = "test/" if node_idx in self.test_idx else "train/"
+                    edge_index, weights, _, weights_all_graph = explanations[node_idx]
+                    num_nodes = self.graphs_ori.flatten().unique().shape[0]
 
-                data = ptgeom.data.Data(edge_index=edge_index, edge_imp=weights, num_nodes=num_nodes)
-                g = nx.Graph(ptgeom.utils.to_networkx(data, edge_attrs=["edge_imp"]))
+                    data = ptgeom.data.Data(edge_index=self.graphs_ori, edge_imp=weights_all_graph, num_nodes=num_nodes)
+                    g = nx.Graph(ptgeom.utils.to_networkx(data, edge_attrs=["edge_imp"]))
 
-                gid = str(j) + "_" + str(self.original_preds[graph_idx].item()) + ".gpickle"
-                path = PATH_to_store + split + str(self.labels[graph_idx].item()) + "/" + gid
-                nx.write_gpickle(g, path)    
+                    gid = str(node_idx) + "_" + str(self.original_preds[node_idx].item()) + ".gpickle"
+                    path = PATH_to_store + split + str(self.labels[node_idx].item()) + "/" + gid
+                    nx.write_gpickle(g, path)
+            else:
+                for j, graph_idx in enumerate(self.train_idx):
+                    split = "train/"
+                    edge_index, weights = explanations[graph_idx]
+                    num_nodes = edge_index.flatten().unique().shape[0]
 
-            for j, graph_idx in enumerate(self.test_idx):
-                split = "test/"
-                edge_index, weights = explanations[graph_idx]
-                num_nodes = edge_index.flatten().unique().shape[0]
+                    data = ptgeom.data.Data(edge_index=edge_index, edge_imp=weights, num_nodes=num_nodes)
+                    g = nx.Graph(ptgeom.utils.to_networkx(data, edge_attrs=["edge_imp"]))
 
-                data = ptgeom.data.Data(edge_index=edge_index, edge_imp=weights, num_nodes=num_nodes)
-                g = nx.Graph(ptgeom.utils.to_networkx(data, edge_attrs=["edge_imp"]))
+                    gid = str(j) + "_" + str(self.original_preds[graph_idx].item()) + ".gpickle"
+                    path = PATH_to_store + split + str(self.labels[graph_idx].item()) + "/" + gid
+                    nx.write_gpickle(g, path)
 
-                gid = str(j) + "_" + str(self.original_preds[graph_idx].item()) + ".gpickle"
-                path = PATH_to_store + split + str(self.labels[graph_idx].item()) + "/" + gid
-                nx.write_gpickle(g, path)     
+                for j, graph_idx in enumerate(self.test_idx):
+                    split = "test/"
+                    edge_index, weights = explanations[graph_idx]
+                    num_nodes = edge_index.flatten().unique().shape[0]
 
+                    data = ptgeom.data.Data(edge_index=edge_index, edge_imp=weights, num_nodes=num_nodes)
+                    g = nx.Graph(ptgeom.utils.to_networkx(data, edge_attrs=["edge_imp"]))
 
-            #for sample_id, (edge_index, weights) in enumerate(explanations):
-            #    split = "test/" if self.test_mask[sample_id] else "train/"
-            #    num_nodes = edge_index.flatten().unique().shape[0]
-
-            #   data = ptgeom.data.Data(edge_index=edge_index, edge_imp=weights, num_nodes=num_nodes)
-            #    g = nx.Graph(ptgeom.utils.to_networkx(data, edge_attrs=["edge_imp"]))
-
-                #print(nx.get_edge_attributes(g, "edge_imp"))
-
-            #    gid = str(c[split]) + "_" + str(self.original_preds[sample_id].item()) + ".gpickle"
-            #    path = PATH_to_store + split + str(self.labels[sample_id].item()) + "/" + gid
-            #    nx.write_gpickle(g, path)
-            #    c[split] += 1
-
+                    gid = str(j) + "_" + str(self.original_preds[graph_idx].item()) + ".gpickle"
+                    path = PATH_to_store + split + str(self.labels[graph_idx].item()) + "/" + gid
+                    nx.write_gpickle(g, path)
 
         #auc_score = self.auc_eval.get_score(explanations)
         #print(f'[EVAL-{prefix}] AUC={auc_score}', flush=True)
@@ -713,7 +749,7 @@ if __name__ == '__main__':
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--with_attr', action='store_true', default=True)
     parser.add_argument('--n_hop', type=int, default=3)
-    parser.add_argument('--max_size', type=int, default=20)
+    parser.add_argument('--max_size', type=int, default=1000)
 
     # Locator
     parser.add_argument('--pretrain_l_sample_rate', type=float, default=1.0)
@@ -748,6 +784,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
     args.model_name = args.model
     seed_all(args.seed)
+
+    if args.dataset.lower() == "infection":
+        args.n_hop = 2
+    elif args.dataset.lower() == "bashapes":
+        if args.model.lower() in ["gcn", "gat", "gin"]:
+            args.n_hop = 3
+        else:
+            args.n_hop = 2
 
     print('= ' * 20)
     now = datetime.datetime.now()

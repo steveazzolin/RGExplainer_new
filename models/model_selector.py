@@ -33,6 +33,11 @@ from models.SURVEY_paper import (
     SURVEY_stars_Set2Set,
     SURVEY_stars_HO,
     SURVEY_stars_GIN,
+
+    SURVEY_shapes_Cheb,
+    SURVEY_shapes_GCN,
+    SURVEY_shapes_GIN,
+    SURVEY_shapes_SAGE,
 )
 
 
@@ -122,6 +127,14 @@ def string_to_model(paper, dataset, model):
             return SURVEY_stars_HO().double()
         elif dataset.lower() in ['er_nb_stars2'] and model.lower() in ['gin']:
             return SURVEY_stars_GIN().double()
+        elif dataset.lower() in ['bashapes'] and model.lower() in ['cheb']:
+            return SURVEY_shapes_Cheb().float()
+        elif dataset.lower() in ['bashapes'] and model.lower() in ['gcn']:
+            return SURVEY_shapes_GCN().float()
+        elif dataset.lower() in ['bashapes'] and model.lower() in ['gin']:
+            return SURVEY_shapes_GIN().float()
+        elif dataset.lower() in ['bashapes'] and model.lower() in ['graphsage']:
+            return SURVEY_shapes_SAGE().float()
         else:
             print(paper, dataset, model)
             raise NotImplementedError

@@ -4,6 +4,7 @@ import torch
 import os
 from numpy.random.mtrand import RandomState
 from sklearn.model_selection import train_test_split
+from torch_geometric.datasets import BAShapes
 
 from datasets.utils import preprocess_features, preprocess_adj, adj_to_edge_index, load_real_dataset
 
@@ -99,6 +100,7 @@ def load_dataset(paper, _dataset, skip_preproccessing=False, shuffle=True):
             with open(f'{data_path}BA-2grid.pkl', 'rb') as fin:
                 (adjs, features, labels) = pkl.load(fin)
             edge_index = adj_to_edge_index(adjs)
+            features = [torch.tensor(f, dtype=float) for f in features]
             idx = torch.arange(len(adjs))
             train_idx, test_idx = train_test_split(idx, train_size=0.8, stratify=labels, random_state=10)
             test_mask = np.full(len(adjs), False, dtype=bool)
@@ -107,6 +109,7 @@ def load_dataset(paper, _dataset, skip_preproccessing=False, shuffle=True):
             with open(f'{data_path}BA-2grid-house.pkl', 'rb') as fin:
                 (adjs, features, labels) = pkl.load(fin)
             edge_index = adj_to_edge_index(adjs)
+            features = [torch.tensor(f, dtype=float) for f in features]
             idx = torch.arange(len(adjs))
             train_idx, test_idx = train_test_split(idx, train_size=0.8, stratify=labels, random_state=10)
             test_mask = np.full(len(adjs), False, dtype=bool)
@@ -115,6 +118,7 @@ def load_dataset(paper, _dataset, skip_preproccessing=False, shuffle=True):
             with open(f'{data_path}BA-houses_color.pkl', 'rb') as fin:
                 (adjs, features, labels, _) = pkl.load(fin)
             edge_index = adj_to_edge_index(adjs)
+            features = [torch.tensor(f, dtype=float) for f in features]
             idx = torch.arange(len(adjs))
             train_idx, test_idx = train_test_split(idx, train_size=0.8, stratify=labels, random_state=10)
             test_mask = np.full(len(adjs), False, dtype=bool)
@@ -123,13 +127,22 @@ def load_dataset(paper, _dataset, skip_preproccessing=False, shuffle=True):
             with open(f'{data_path}ER-nb_stars2.pkl', 'rb') as fin:
                 (adjs, features, labels) = pkl.load(fin)
             edge_index = adj_to_edge_index(adjs)
+            features = [torch.tensor(f, dtype=float) for f in features]
             idx = torch.arange(len(adjs))
             train_idx, test_idx = train_test_split(idx, train_size=0.8, stratify=labels, random_state=10)
             test_mask = np.full(len(adjs), False, dtype=bool)
             test_mask[test_idx] = True
+        elif _dataset.lower() == "bashapes":
+            dataset = BAShapes()
+
+            features = dataset.data.x.float()
+            edge_index = dataset.data.edge_index
+            labels = dataset.data.y
+            train_idx, test_idx = train_test_split(torch.arange(dataset.data.num_nodes), train_size=0.8, stratify=dataset.data.y,random_state=10)
+            test_mask = np.full(dataset.data.num_nodes, False, dtype=bool)
+            test_mask[test_idx] = True
         else:
             raise ValueError(f"{_dataset} not found")
-        features = [torch.tensor(f, dtype=float) for f in features]
         return edge_index, features, labels, None, None, train_idx, test_idx, test_mask
     else:
         if _dataset[:3] == "syn": # Load node_dataset

@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 from torch.nn import ReLU, Linear
 from torch_geometric.nn import GCNConv, global_max_pool, global_mean_pool, global_add_pool, dense_mincut_pool
-from torch_geometric.nn import ChebConv, SAGEConv, Set2Set, GraphConv, GINConv, GATConv, DenseGCNConv
+from torch_geometric.nn import ChebConv, SAGEConv, Set2Set, GraphConv, GINConv, GATConv, DenseGCNConv, GATv2Conv
 from torch_geometric.utils import to_dense_adj, to_dense_batch
 
 class SURVEY_BA_2grid_Cheb(torch.nn.Module):
@@ -1036,4 +1036,102 @@ class SURVEY_stars_HO(torch.nn.Module):
 
         embed = self.embedding(x, edge_index, edge_weights)
         x = global_mean_pool(embed, batch)
+        return x
+    
+############################################################################
+##
+# NODE CLASSIFICATION
+##
+############################################################################
+
+
+
+
+##
+# BA-SHAPES
+##
+
+class SURVEY_shapes_Cheb(torch.nn.Module):
+    def __init__(self, num_features=10, num_classes=4):
+        super(SURVEY_shapes_Cheb, self).__init__()
+        #self.embedding_size = 20 * 3
+        self.conv1 = ChebConv(num_features, 30, K=5)
+        self.conv2 = ChebConv(30, 30, K=5)
+
+        self.lin1 = torch.nn.Linear(30, num_classes)
+
+    def forward(self, x, edge_index, edge_weights=None):
+        input_lin = self.embedding(x, edge_index, edge_weights)
+        out = self.lin1(input_lin)
+        return out
+
+    def embedding(self, x, edge_index, edge_weights=None):
+        x = F.relu(self.conv1(x.float(), edge_index, edge_weights))
+        x = F.relu(self.conv2(x, edge_index, edge_weights))
+        return x
+    
+
+class SURVEY_shapes_GCN(torch.nn.Module):
+    def __init__(self, num_features=10, num_classes=4):
+        super(SURVEY_shapes_GCN, self).__init__()
+        #self.embedding_size = 20 * 3
+        self.conv1 = GCNConv(num_features, 30)
+        self.conv2 = GCNConv(30, 30)
+        self.conv3 = GCNConv(30, 30)
+
+        self.lin1 = torch.nn.Linear(30, 10)
+        self.lin2 = torch.nn.Linear(10, num_classes)
+
+    def forward(self, x, edge_index, edge_weights=None):
+        input_lin = self.embedding(x, edge_index, edge_weights)
+        out = F.relu(self.lin1(input_lin))
+        out = self.lin2(out)
+        return out
+
+    def embedding(self, x, edge_index, edge_weights=None):
+        x = self.conv1(x.float(), edge_index, edge_weights)
+        x = F.relu(self.conv2(x, edge_index, edge_weights))
+        x = F.relu(self.conv3(x, edge_index, edge_weights))
+        return x
+
+
+class SURVEY_shapes_GIN(torch.nn.Module):
+    def __init__(self, num_features=10, num_classes=4):
+        super(SURVEY_shapes_GIN, self).__init__()
+        #self.embedding_size = 20 * 3
+        self.mlp1 = torch.nn.Linear(num_features, 70)
+        self.conv1 = GINConv(self.mlp1)
+        self.mlp2 = torch.nn.Linear(70, 70)
+        self.conv2 = GINConv(self.mlp2)
+        self.mlp3 = torch.nn.Linear(70, 70)
+        self.conv3 = GINConv(self.mlp3)
+
+        self.lin1 = torch.nn.Linear(70, num_classes)
+
+    def forward(self, x, edge_index, edge_weights=None):
+        input_lin = self.embedding(x, edge_index, edge_weights)
+        out = self.lin1(input_lin)
+        return out
+
+    def embedding(self, x, edge_index, edge_weights=None):
+        x = F.relu(self.conv1(x.float(), edge_index, edge_weights))
+        x = F.relu(self.conv2(x, edge_index, edge_weights))
+        x = F.relu(self.conv3(x, edge_index, edge_weights))
+        return x
+
+class SURVEY_shapes_SAGE(torch.nn.Module):
+    def __init__(self, num_features=10, num_classes=4):
+        super(SURVEY_shapes_SAGE, self).__init__()
+        self.conv1 = SAGEConv(num_features, 30, aggr="sum")
+        self.conv2 = SAGEConv(30, 30, aggr="sum")
+        self.lin1 = Linear(30, num_classes)
+
+    def forward(self, x, edge_index, edge_weights=None):
+        input_lin = self.embedding(x, edge_index, edge_weights)
+        out = self.lin1(input_lin)
+        return out
+
+    def embedding(self, x, edge_index, edge_weights=None):
+        x = F.relu(self.conv1(x.float(), edge_index, edge_weights))
+        x = F.relu(self.conv2(x, edge_index, edge_weights))
         return x

@@ -6,10 +6,12 @@ from scipy import sparse as sp
 import random
 import torch
 
+import torch_geometric as ptgeom
+
 class Graph:
 
     def __init__(self, edges):
-        self.edge_index = torch.tensor(edges)
+        self.edge_index = torch.LongTensor(edges) #torch.tensor(edges)
         edges = edges.T
         self.neighbors, self.n_nodes, self.adj_mat, self.isolated_nodes = self._init_from_edges(edges)
 
@@ -20,8 +22,8 @@ class Graph:
         for u, v in edges:
             max_id = max(max_id, u, v)
             if u != v:
-                neighbors[u].add(v)
-                neighbors[v].add(u)
+                neighbors[u.item()].add(v.item())
+                neighbors[v.item()].add(u.item())
         n_nodes = len(neighbors)
         isolated_nodes = []
         if (max_id + 1) != n_nodes:
@@ -59,7 +61,7 @@ class Graph:
             if expansion[i] not in boundary:
                 return False
         return True
-    
+
     def sample_expansion_with_high_scores(self, score_fn, sample_num, comm_nodes, seed, max_size):
 
         sample_walks = [self.sample_layerwise_expansion(comm_nodes, seed, max_size) for s in range(sample_num)]
@@ -79,10 +81,10 @@ class Graph:
             remaining.remove(new_node)
             boundary |= self.neighbors[new_node]
             walk.append(new_node)
-        
-        length =  np.random.randint(4, len(walk)) 
+
+        length =  np.random.randint(4, len(walk))
         return walk[:length]
-    
+
     def sample_layerwise_expansion(self, comm_nodes: Union[List, Set],
                                         seed: int, max_size: int) -> List[int]:
 

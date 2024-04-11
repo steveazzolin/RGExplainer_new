@@ -1,6 +1,6 @@
 This is a customized Pytorch implementation of RG-Explainer. It is *NOT* the original implementation.
 
-You can find the original code [here](https://openreview.net/forum?id=nUtLCcV24hL)
+You can find the original code (here)[https://openreview.net/forum?id=nUtLCcV24hL]
 
 
 
